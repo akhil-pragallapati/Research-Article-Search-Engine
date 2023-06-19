@@ -1,0 +1,93 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+
+    <link rel="stylesheet" type="text/css" href="{% static 'styling.css' %}">
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <script type="text/javascript" src="{% static 'functions.js' %}"></script>
+
+</head>
+<body class="body">
+    
+
+    
+        <h1 > 
+            Research Articles Search Engine  
+        </h1>
+        
+        <form method="POST" action="/search">
+        {% csrf_token %}
+        <h3 id = "h3">Paper search Engine </h3>
+        
+            
+        <div class="searchcontainer d-flex flex-row justify-content-left">
+            
+            <div class="dropdown">
+                <label for="Database">Choose a Database:</label>
+    
+                <select name="Database" id="Database" class="dropdown-o">
+                  <option value="Pubmed">PubMed</option>
+                  <option value="Scopus">Scopus</option>
+                  
+                </select> 
+            </div>
+            
+            
+            <div>
+                <input type="text" class="input-keyword" placeholder="Enter the Keyword" name = "keyword" size="70" />
+            
+                <input type="submit" class="btn btn-primary" name="AND" value="AND" />
+                <input type="submit" class="btn btn-warning" name="OR" value="OR" />
+                <input type ="submit" class="btn btn-success" name="Done" value="Done" />
+            </div>
+        
+
+        </div>
+
+        <div class="searchcontainer d-flex flex-row justify-content-left">
+                
+            <div>    
+                <p>Query Box</p>
+                <input type ="text" id="query1" class="query-p" placeholder="Query Box" name = "Query1" size="70" value="
+                
+                {% for result in data %}{{result.keyword}} {{result.operators}} {% endfor %}
+
+                
+                " />
+                
+                <input type="submit" class="btn btn-primary" name="ANDf" value="AND" />
+                <input type="submit" class="btn btn-warning" name="ORf" value="OR" />
+                <input type ="submit" class="btn btn-success" name="Donef" value="Done" />
+                <input type="submit" class="btn btn-danger" name="reseto" value="Reset Query" />
+                 
+                <p>Final Box</p>
+                <input type ="text" id="query" class="query-p" placeholder="Final Query Box" name = "Query" size="100" value="{% for result in dataf %} {{result.keyword}} {{result.operators}} {% endfor %}" />
+
+                <button onclick="msg()" class="btn btn-primary" name = "Validate" value = "Validate">Validate</button>
+                <input onclick="return msg()" type="submit" class="btn btn-success" name="Search" value="Search" />
+                <input type="submit" class="btn btn-danger" name="resetfq" value="Reset Final Query" />
+                <input type="submit" class="btn btn-danger" name="reset" value="Reset Database" />
+
+            </div>
+        </div>
+
+        <div class="searchcontainer d-flex flex-row justify-content-left">
+            <div class="sample-query">
+                <h4>Guidelines</h4>
+                <ul>
+                    <li>The Query should be in this format, "Query : (Machine Learning) AND (Data Mining) OR (Artificial Intelligence)"</li>
+                    <li>Special characters like *,@,%,& should not be used in query</li>    
+                </ul>
+            </div>
+        </div>
+
+
+        
+        </form>
+
+    
+</body>
+</html>
